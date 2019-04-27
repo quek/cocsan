@@ -1,5 +1,1 @@
-export default () => (
-  <div>
-    あいう
-  </div>
-);
+export default () => <div>あいう</div>;
