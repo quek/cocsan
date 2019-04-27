@@ -19,7 +19,7 @@
     "lint": "eslint --fix --ext .ts,.tsx './src'",
     "typecheck-app": "tsc --project src/app",
     "copy-deps": "cpx \"*{package.json,package-lock.json,yarn.lock}\" \"dist/functions\" -C",
-    "install-deps": "cd \"dist/functions\" && yarn install"
+    "install-deps": "cd \"dist/functions\" && yarn install --ignore-engines"
   },
   "dependencies": {
     "@zeit/next-typescript": "^1.1.0",
