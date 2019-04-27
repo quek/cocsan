@@ -8,5 +8,8 @@ export default ({ pathname }: { pathname?: any }) => (
     <Link href='/about'>
       <a className={pathname === '/about' ? 'is-active' : ''}>About</a>
     </Link>
+    <Link href='/characters'>
+      <a className={pathname === '/characters' ? 'is-active' : ''}>キャラ</a>
+    </Link>
   </header>
 );
