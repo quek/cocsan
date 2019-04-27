@@ -1,13 +1,14 @@
 {
-  "name": "with-firebase-hosting-and-typescript",
+  "name": "cocsan",
   "version": "1.0.0",
   "description": "Host Next.js SSR app on Firebase Cloud Functions with Firebase Hosting redirects. Built with typescript.",
+  "licens": "MIT",
   "engines": {
     "node": "8"
   },
   "scripts": {
     "dev": "next src/app",
-    "preserve": "npm run build-public && npm run build-functions && npm run build-app && npm run copy-deps && npm run install-deps",
+    "preserve": "yarn run build-public && yarn run build-functions && yarn run build-app && yarn run copy-deps && yarn run install-deps",
     "serve": "cross-env NODE_ENV=production firebase serve",
     "deploy": "firebase deploy",
     "clean": "rimraf \"dist/functions\" && rimraf \"dist/public\"",
@@ -18,7 +19,7 @@
     "typecheck-app": "tsc --project src/app",
     "lint-functions": "tslint --project src/functions",
     "copy-deps": "cpx \"*{package.json,package-lock.json,yarn.lock}\" \"dist/functions\" -C",
-    "install-deps": "cd \"dist/functions\" && npm i"
+    "install-deps": "cd \"dist/functions\" && yarn install"
   },
   "dependencies": {
     "@zeit/next-typescript": "^1.1.0",

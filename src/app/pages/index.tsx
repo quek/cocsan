@@ -2,6 +2,6 @@ import App from '../components/App';
 
 export default () => (
   <App>
-    <p>Index Page</p>
+    <p>いんでっくす Page</p>
   </App>
 );
