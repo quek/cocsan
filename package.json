@@ -19,7 +19,7 @@
     "lint": "eslint --fix --ext .ts,.tsx './src'",
     "typecheck-app": "tsc --project src/app",
     "copy-deps": "cpx \"*{package.json,package-lock.json,yarn.lock}\" \"dist/functions\" -C",
-    "install-deps": "cd \"dist/functions\" && yarn install --ignore-engines"
+    "install-deps": "cd \"dist/functions\" && yarn install"
   },
   "dependencies": {
     "@zeit/next-typescript": "^1.1.0",
@@ -30,7 +30,6 @@
     "react-dom": "^16.7.0"
   },
   "devDependencies": {
-    "@google-cloud/functions-emulator": "^1.0.0-beta.6",
     "@types/next": "^7.0.0",
     "@types/react": "^16.6.0",
     "@typescript-eslint/eslint-plugin": "^1.7.0",
