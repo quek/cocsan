@@ -1,9 +1,9 @@
 import App from '../../components/App';
-import Characters from '../../components/Characters';
+import Index from '../../components/Characters/Index';
 
 export default () => (
   <App>
     <h1>キャラクター</h1>
-    <Characters />
+    <Index />
   </App>
 );
