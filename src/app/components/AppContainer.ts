@@ -15,7 +15,7 @@ class AppContainer extends Container<State> {
     this.setState({ firebase: firebase });
   }
 
-  public login(currentUser: firebaseUser) {
+  public login(currentUser: firebase.User) {
     this.setState({ currentUser });
   }
 
