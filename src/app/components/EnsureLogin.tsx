@@ -23,9 +23,7 @@ export default class EnsureLogin extends React.Component<Props> {
 
   public async componentDidMount() {
     firebase.auth().onAuthStateChanged(async firebaseUser => {
-      console.log('onAuthStateChanged');
       if (firebaseUser) {
-        console.log(firebaseUser);
         this.props.appContainer.login(firebaseUser);
       } else {
         const provider = new firebase.auth.GoogleAuthProvider();
