@@ -11,5 +11,8 @@ export default ({ pathname }: { pathname?: string }) => (
     <Link href="/characters">
       <a className={pathname === '/characters' ? 'is-active' : ''}>キャラ</a>
     </Link>
+    <Link href="/login">
+      <a className={pathname === '/login' ? 'is-active' : ''}>ログイン</a>
+    </Link>
   </header>
 );

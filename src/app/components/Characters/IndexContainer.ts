@@ -9,5 +9,5 @@ interface State {
 }
 
 export default class IndexContainer extends Container<State> {
-  state = { characters: [{ name: 'にゃ～' }] };
+  public state = { characters: [{ name: 'にゃ～' }] };
 }
