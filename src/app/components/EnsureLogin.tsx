@@ -4,38 +4,25 @@ import loadFirebase from '../loadFirebase';
 
 export default class EnsureLogin extends React.Component<{}> {
   public render() {
-    return <button onClick={this.logout}>ログアウト</button>;
+    return (
+      <div>
+        <button onClick={this.logout}>ログアウト</button>
+        {this.props.children}
+      </div>
+    );
   }
 
   public async componentDidMount() {
     await loadFirebase();
-    const unsubscribe = firebase
-      .auth()
-      .onAuthStateChanged(async firebaseUser => {
-        console.log('onAuthStateChanged');
-        unsubscribe();
-        if (firebaseUser) {
-          console.log(firebaseUser);
-        } else {
-          const provider = new firebase.auth.GoogleAuthProvider();
-          firebase.auth().signInWithRedirect(provider);
-        }
-      });
-
-    firebase
-      .auth()
-      .getRedirectResult()
-      .then(function(result) {
-        // if (result.credential) {
-        //   // This gives you a Google Access Token. You can use it to access the Google API.
-        //   var token = result.credential.accessToken;
-        //   // ...
-        // }
-        // The signed-in user info.
-        var user = result.user;
-        console.log('getRedirectResult');
-        console.log(user);
-      });
+    firebase.auth().onAuthStateChanged(async firebaseUser => {
+      console.log('onAuthStateChanged');
+      if (firebaseUser) {
+        console.log(firebaseUser);
+      } else {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth().signInWithRedirect(provider);
+      }
+    });
   }
 
   private logout = async () => {
