@@ -1,5 +1,6 @@
 import React from 'react';
 import { Subscribe } from 'unstated';
+import Link from 'next/link';
 import IndexContainer from './IndexContainer';
 import Character from '../../models/Character';
 
@@ -16,6 +17,11 @@ class Index extends React.Component<Props> {
             <li key={index}>{character.name}</li>
           ))}
         </ul>
+        <div>
+          <Link href="/characters/new">
+            <a>作る</a>
+          </Link>
+        </div>
       </div>
     );
   }
