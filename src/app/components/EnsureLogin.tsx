@@ -1,6 +1,5 @@
 import React from 'react';
 import firebase from 'firebase/app';
-import loadFirebase from '../loadFirebase';
 
 export default class EnsureLogin extends React.Component<{}> {
   public render() {
@@ -13,7 +12,6 @@ export default class EnsureLogin extends React.Component<{}> {
   }
 
   public async componentDidMount() {
-    await loadFirebase();
     firebase.auth().onAuthStateChanged(async firebaseUser => {
       console.log('onAuthStateChanged');
       if (firebaseUser) {
@@ -26,7 +24,6 @@ export default class EnsureLogin extends React.Component<{}> {
   }
 
   private logout = async () => {
-    await loadFirebase();
     await firebase.auth().signOut();
   };
 }
