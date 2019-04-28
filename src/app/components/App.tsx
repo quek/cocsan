@@ -14,7 +14,7 @@ class AppInner extends React.Component<Props> {
       return <p>loading...</p>;
     }
     return (
-      <EnsureLogin>
+      <EnsureLogin appContainer={this.props.appContainer}>
         <main>
           <Header />
           {this.props.children}

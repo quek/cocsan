@@ -1,10 +1,20 @@
 import React from 'react';
 import firebase from 'firebase/app';
+import AppContainer from './AppContainer';
 
-export default class EnsureLogin extends React.Component<{}> {
+interface Props {
+  appContainer: typeof AppContainer;
+}
+
+export default class EnsureLogin extends React.Component<Props> {
   public render() {
+    const { currentUser } = this.props.appContainer.state;
+    if (!currentUser) {
+      return <p>loading...</p>;
+    }
     return (
       <div>
+        {currentUser.displayName}
         <button onClick={this.logout}>ログアウト</button>
         {this.props.children}
       </div>
@@ -16,6 +26,7 @@ export default class EnsureLogin extends React.Component<{}> {
       console.log('onAuthStateChanged');
       if (firebaseUser) {
         console.log(firebaseUser);
+        this.props.appContainer.login(firebaseUser);
       } else {
         const provider = new firebase.auth.GoogleAuthProvider();
         firebase.auth().signInWithRedirect(provider);
@@ -24,6 +35,6 @@ export default class EnsureLogin extends React.Component<{}> {
   }
 
   private logout = async () => {
-    await firebase.auth().signOut();
+    await this.props.appContainer.logout();
   };
 }

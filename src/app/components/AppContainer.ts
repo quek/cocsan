@@ -14,6 +14,14 @@ class AppContainer extends Container<State> {
     await loadFirebase();
     this.setState({ firebase: firebase });
   }
+
+  public login(currentUser: firebaseUser) {
+    this.setState({ currentUser });
+  }
+
+  public async logout() {
+    await firebase.auth().signOut();
+  }
 }
 
 export default new AppContainer();
