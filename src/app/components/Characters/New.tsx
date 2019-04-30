@@ -23,6 +23,8 @@ class New extends React.Component<Props> {
               <label>名前</label>
               <Field type="text" name="name" component="input" />
               <ErrorMessage name="name" />
+              <Field type="text" name="namexx" component="input" />
+              <ErrorMessage name="namexx" />
             </div>
             <div>
               <button>作る</button>
