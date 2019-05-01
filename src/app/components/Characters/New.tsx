@@ -121,7 +121,8 @@ class New extends React.Component<Props> {
       batch(() => {
         const STR = dice.roll3D6();
         change('STR', STR);
-        change('CON', dice.roll3D6());
+        const CON = dice.roll3D6();
+        change('CON', CON);
         const POW = dice.roll3D6();
         change('POW', POW);
         change('DEX', dice.roll3D6());
@@ -132,12 +133,16 @@ class New extends React.Component<Props> {
         change('SIZ', SIZ);
         const EDU = dice.roll3D6() + 3;
         change('EDU', EDU);
-        change('SAN', POW * 5);
+        const SAN = POW * 5;
+        change('SAN', SAV);
         change('アイデア', INT * 5);
         change('幸運', POW * 5);
         change('知識', EDU * 5);
         change('ダメージボーナス', this.computeDamageBonus(STR, SIZ));
         change('最大正気度', 99);
+        change('正気度ポイント', SAN);
+        change('マジックポイント', POW);
+        change('耐久力', Math.ceil((CON + SIZ) / 2));
       });
     };
   };
