@@ -8,13 +8,27 @@ import AppContainer from '../AppContainer';
 import currentUser from '../../currentUser';
 import styled from 'styled-components';
 import { d } from '../../util';
+import dice from '../../dice';
 
 const Row = styled.div`
   display: flex;
 `;
 
-const SmallField = styled(Field)`
-  width: 2rem;
+const Col = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const AbilityCol = styled(Col)`
+  input {
+    width: 2rem;
+  }
+`;
+
+const SexRow = styled(Row)`
+  input {
+    width: 4rem;
+  }
 `;
 
 interface Props {
@@ -22,17 +36,21 @@ interface Props {
   app: typeof AppContainer;
 }
 
-function rollD6() {
-  return Math.floor(Math.random() * Math.floor(6));
-}
+const FT = ({ name }: { name: string }) => (
+  <div>
+    <label>{name}</label>
+    <Field type="text" name={name} component="input" />
+    <ErrorMessage name={name} />
+  </div>
+);
 
-function roll2d6() {
-  return rollD6() + rollD6() + rollD6();
-}
-
-function roll3d6() {
-  return rollD6() + rollD6() + rollD6();
-}
+const FN = ({ name }: { name: string }) => (
+  <div>
+    <label>{name}</label>
+    <Field type="number" name={name} component="input" />
+    <ErrorMessage name={name} />
+  </div>
+);
 
 class New extends React.Component<Props> {
   public render() {
@@ -41,30 +59,50 @@ class New extends React.Component<Props> {
         onSubmit={this.handleSubmit}
         render={props => (
           <form onSubmit={props.handleSubmit}>
-            <div>
-              <label>名前</label>
-              <Field type="text" name="name" component="input" />
-              <ErrorMessage name="name" />
-            </div>
-            <Row>
-              <div>
-                <label>STR</label>
-                <SmallField type="number" name="str" component="input" />
-              </div>
-              <div>
-                <label>DEX</label>
-                <SmallField type="number" name="dex" component="input" />
-              </div>
-              <div>
-                <label>INT</label>
-                <SmallField type="number" name="int" component="input" />
-              </div>
-              <div>
-                <label>アイデア</label>
-                {props.values.アイデア}
-                <SmallField type="hidden" name="アイデア" component="input" />
-              </div>
-            </Row>
+            <Col>
+              <Row>
+                <Col>
+                  {FT({ name: '探索者名' })}
+                  {FT({ name: '職業' })}
+                  {FT({ name: '学校学位' })}
+                  {FT({ name: '出身' })}
+                  {FT({ name: '精神的な障害' })}
+                  <SexRow>
+                    {FT({ name: '性別' })}
+                    {FT({ name: '年齢' })}
+                  </SexRow>
+                </Col>
+                <AbilityCol>
+                  <Row>
+                    {FN({ name: 'STR' })}
+                    {FN({ name: 'DEX' })}
+                    {FN({ name: 'INT' })}
+                    {FN({ name: 'アイデア' })}
+                  </Row>
+                  <Row>
+                    {FN({ name: 'CON' })}
+                    {FN({ name: 'APP' })}
+                    {FN({ name: 'POW' })}
+                    {FN({ name: '幸運' })}
+                  </Row>
+                  <Row>
+                    {FN({ name: 'SIZ' })}
+                    {FN({ name: 'SAN' })}
+                    {FN({ name: 'EDU' })}
+                    {FN({ name: '知識' })}
+                  </Row>
+                  <Row>
+                    {FN({ name: '最大正気度' })}
+                    {FN({ name: 'ダメージボーナス' })}
+                  </Row>
+                </AbilityCol>
+              </Row>
+              <Row>
+                {FN({ name: '正気度ポイント' })}
+                {FN({ name: 'マジックポイント' })}
+                {FN({ name: '耐久力' })}
+              </Row>
+            </Col>
             <div>
               <button onClick={this.handleInitialize(props)}>初期化</button>
               <button>作る</button>
@@ -81,14 +119,61 @@ class New extends React.Component<Props> {
       event.preventDefault();
       const { batch, change } = props.form;
       batch(() => {
-        change('str', roll3d6());
-        change('dex', roll3d6());
-        const int = roll2d6() + 6;
-        change('int', int);
-        change('アイデア', int * 5);
+        const STR = dice.roll3D6();
+        change('STR', STR);
+        change('CON', dice.roll3D6());
+        const POW = dice.roll3D6();
+        change('POW', POW);
+        change('DEX', dice.roll3D6());
+        change('APP', dice.roll3D6());
+        const INT = dice.roll2D6() + 6;
+        change('INT', INT);
+        const SIZ = dice.roll2D6() + 6;
+        change('SIZ', SIZ);
+        const EDU = dice.roll3D6() + 3;
+        change('EDU', EDU);
+        change('SAN', POW * 5);
+        change('アイデア', INT * 5);
+        change('幸運', POW * 5);
+        change('知識', EDU * 5);
+        change('ダメージボーナス', this.computeDamageBonus(STR, SIZ));
+        change('最大正気度', 99);
       });
     };
   };
+
+  private computeDamageBonus(STR: number, SIZ: number): number {
+    const value = STR + SIZ;
+    if (value <= 12) {
+      return -dice.roll1D6();
+    }
+    if (value <= 16) {
+      return -dice.roll1D4();
+    }
+    if (value <= 24) {
+      return 0;
+    }
+    if (value <= 32) {
+      return dice.roll1D4();
+    }
+    if (value <= 40) {
+      return dice.roll1D6();
+    }
+    if (value <= 56) {
+      return dice.roll2D6();
+    }
+    if (value <= 72) {
+      return dice.roll3D6();
+    }
+    if (value <= 88) {
+      return dice.roll4D6();
+    }
+    let result = dice.roll4D6();
+    for (let i = value - 88; i > 0; i - 16) {
+      result += dice.roll1D6();
+    }
+    return result;
+  }
 
   private handleSubmit = async (values: object) => {
     console.log(values);

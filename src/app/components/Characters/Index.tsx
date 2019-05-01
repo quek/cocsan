@@ -14,7 +14,7 @@ class Index extends React.Component<Props> {
       <div>
         <ul>
           {this.props.c.state.characters.map((character: Character, index) => (
-            <li key={index}>{character.name}</li>
+            <li key={index}>{character.探索者名}</li>
           ))}
         </ul>
         <div>
