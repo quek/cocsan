@@ -70,6 +70,7 @@ export class Form<T> extends React.Component<FormProps<T>, FormState<T>> {
       <FormContext.Provider value={this.state}>
         <form onSubmit={this.handleSubmit}>{this.props.children}</form>
         <pre>{d(this.state.values)}</pre>
+        <pre>{d(Object.keys(this.state.values))}</pre>
         <button onClick={() => this.setState({ values: {} })}>clear</button>
       </FormContext.Provider>
     );
@@ -81,7 +82,13 @@ export class Form<T> extends React.Component<FormProps<T>, FormState<T>> {
     }));
   };
 
-  private getValue = <K extends keyof T>(name: K) => {
+  private getValue = <K extends keyof T>(name: K): T[K] | undefined => {
+    if (Object.keys(this.state.values).indexOf(`${name}`) === -1) {
+      this.setState(state => ({
+        values: { ...state.values, [name]: undefined }
+      }));
+      return undefined;
+    }
     return this.state.values[name];
   };
 
