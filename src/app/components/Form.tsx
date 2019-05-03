@@ -70,6 +70,7 @@ export class Form<T> extends React.Component<FormProps<T>, FormState<T>> {
       <FormContext.Provider value={this.state}>
         <form onSubmit={this.handleSubmit}>{this.props.children}</form>
         <pre>{d(this.state.values)}</pre>
+        <button onClick={() => this.setState({ values: {} })}>clear</button>
       </FormContext.Provider>
     );
   }
