@@ -134,7 +134,7 @@ class New extends React.Component<Props> {
         const EDU = dice.roll3D6() + 3;
         change('EDU', EDU);
         const SAN = POW * 5;
-        change('SAN', SAV);
+        change('SAN', SAN);
         change('アイデア', INT * 5);
         change('幸運', POW * 5);
         change('知識', EDU * 5);
