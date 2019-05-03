@@ -3,7 +3,7 @@ import { Form, Field } from '../components/Form';
 
 interface Value {
   foo: string;
-  bar: string;
+  bar: number;
 }
 
 class VForm extends Form<Value> {}
