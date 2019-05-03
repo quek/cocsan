@@ -3,14 +3,21 @@ import { d } from '../util';
 
 const FormContext = React.createContext({});
 
-export interface FieldProps<T> {
-  name: keyof T;
+export type Errors<T> = {
+  [K in keyof T]?: T[K] extends object ? Errors<T[K]> : string
+};
+
+export interface FieldProps<T, K extends keyof T> {
+  name: K;
+  value?: T[K];
 }
 
-export class Field<T> extends React.Component<FieldProps<T>> {
+export class Field<T, K extends keyof T> extends React.Component<
+  FieldProps<T, K>
+> {
   public static contextType = FormContext;
 
-  public constructor(props: FieldProps<T>) {
+  public constructor(props: FieldProps<T, K>) {
     super(props);
   }
 
@@ -28,8 +35,9 @@ export interface FormProps<T> {
 }
 
 interface FormState<T> {
-  fields: Field<T>[];
-  addField: (field: Field<T>) => void;
+  fields: Field<T, keyof T>[];
+  errors?: Errors<T>;
+  addField: (field: Field<T, keyof T>) => void;
 }
 
 export class Form<T> extends React.Component<FormProps<T>, FormState<T>> {
@@ -41,15 +49,19 @@ export class Form<T> extends React.Component<FormProps<T>, FormState<T>> {
   public render() {
     return (
       <FormContext.Provider value={this.state}>
-        {this.props.children}
+        <form onSubmit={this.handleSubmit}>{this.props.children}</form>
         <pre>{d(this.state)}</pre>
       </FormContext.Provider>
     );
   }
 
-  private addField = (field: Field<T>) => {
+  private addField = (field: Field<T, keyof T>) => {
     this.setState(state => ({
       fields: [...state.fields, field]
     }));
+  };
+
+  private handleSubmit = async event => {
+    event.preventDefault();
   };
 }

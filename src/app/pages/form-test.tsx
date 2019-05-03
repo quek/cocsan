@@ -7,7 +7,7 @@ interface Value {
 }
 
 class VForm extends Form<Value> {}
-class VField extends Field<Value> {}
+class FooField extends Field<Value, 'foo'> {}
 
 export default () => (
   <App>
@@ -17,8 +17,13 @@ export default () => (
         console.log(values);
       }}
     >
-      <VField name="foo" />
-      <VField name="bar" />
+      <FooField name="foo" />
     </VForm>
+
+    <VForm
+      onSubmit={values => {
+        console.log(values);
+      }}
+    />
   </App>
 );
