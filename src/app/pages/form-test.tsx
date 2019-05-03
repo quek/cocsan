@@ -7,18 +7,20 @@ interface Value {
 }
 
 class VForm extends Form<Value> {}
-class F extends Field<Value, keyof Value> {}
+class F extends Field<Value> {}
 
 export default () => (
   <App>
     <h1>フォームテスト</h1>
     <VForm
+      values={{ foo: 'にゃ' }}
       onSubmit={values => {
         console.log(values);
       }}
     >
       <F name="foo" />
       <F name="bar" />
+      <input type="submit" />
     </VForm>
   </App>
 );
