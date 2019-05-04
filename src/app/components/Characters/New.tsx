@@ -3,6 +3,7 @@ import { Subscribe } from 'unstated';
 import NewContainer from './NewContainer';
 import { Form, Field } from 'react-final-form';
 import Character, {
+  DEFAULT_SKILL_POINT,
   totalSkillPoint,
   makeCharacter
 } from '../../models/Character';
@@ -98,11 +99,9 @@ const FCS = ({ name }: { name: string }) => (
 
 class New extends React.Component<Props> {
   private defaultCharacter: Character;
-  private defaultPoint: number;
   public constructor(props: Props) {
     super(props);
     this.defaultCharacter = makeCharacter();
-    this.defaultPoint = totalSkillPoint();
   }
 
   public render() {
@@ -113,7 +112,7 @@ class New extends React.Component<Props> {
         render={props => {
           const { 技能ポイント, 興味ポイント } = props.values;
           const used =
-            totalSkillPoint(props.values as Character) - this.defaultPoint;
+            totalSkillPoint(props.values as Character) - DEFAULT_SKILL_POINT;
           const 残り技能ポイント =
             used > 技能ポイント ? 0 : 技能ポイント - used;
           const 残り興味ポイント =

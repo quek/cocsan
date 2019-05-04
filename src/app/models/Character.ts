@@ -251,3 +251,5 @@ export function totalSkillPoint(character: Character = makeCharacter()) {
   }
   return point;
 }
+
+export const DEFAULT_SKILL_POINT = totalSkillPoint();
