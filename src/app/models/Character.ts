@@ -32,68 +32,72 @@ export default interface Character {
   マジックポイント: number;
   耐久力: number;
   // 技能
-  言いくるめ: number;
-  医学: number;
-  運転: number;
-  応急手当: number;
-  オカルト: number;
-  回避: number;
-  化学: number;
-  鍵開け: number;
-  隠す: number;
-  隠れる: number;
-  機械修理: number;
-  聞き耳: number;
-  クトゥルフ神話: number;
-  芸術1: CustomSkill;
-  芸術2: CustomSkill;
-  経理: number;
-  考古学: number;
-  コンピューター: number;
-  忍び歩き: number;
-  写真術: number;
-  重機械操作: number;
-  乗馬: number;
-  信用: number;
-  心理学: number;
-  人類学: number;
-  水泳: number;
-  製作1: CustomSkill;
-  製作2: CustomSkill;
-  製作3: CustomSkill;
-  精神分析: number;
-  生物学: number;
-  説得: number;
-  操作1: CustomSkill;
-  操作2: CustomSkill;
-  地質学: number;
-  跳躍: number;
-  追跡: number;
-  電気修理: number;
-  電子工学: number;
-  天文学: number;
-  投擲: number;
-  登攀: number;
-  図書館: number;
-  ナビゲート: number;
-  値切り: number;
-  博物学: number;
-  物理学: number;
-  変装: number;
-  法律: number;
-  ほかの言語1: CustomSkill;
-  ほかの言語2: CustomSkill;
-  母国語: CustomSkill;
-  マーシャルアーツ: number;
-  目星: number;
-  薬学: number;
-  歴史1: CustomSkill;
-  歴史2: CustomSkill;
-  拳銃: number;
-  サブマシンガン: number;
-  ショットガン: number;
-  マシンガン: number;
-  ライフル: number;
+  技能ポイント: number;
+  興味ポイント: number;
+  skills: {
+    言いくるめ: number;
+    医学: number;
+    運転: number;
+    応急手当: number;
+    オカルト: number;
+    回避: number;
+    化学: number;
+    鍵開け: number;
+    隠す: number;
+    隠れる: number;
+    機械修理: number;
+    聞き耳: number;
+    クトゥルフ神話: number;
+    芸術1: CustomSkill;
+    芸術2: CustomSkill;
+    経理: number;
+    考古学: number;
+    コンピューター: number;
+    忍び歩き: number;
+    写真術: number;
+    重機械操作: number;
+    乗馬: number;
+    信用: number;
+    心理学: number;
+    人類学: number;
+    水泳: number;
+    製作1: CustomSkill;
+    製作2: CustomSkill;
+    製作3: CustomSkill;
+    精神分析: number;
+    生物学: number;
+    説得: number;
+    操作1: CustomSkill;
+    操作2: CustomSkill;
+    地質学: number;
+    跳躍: number;
+    追跡: number;
+    電気修理: number;
+    電子工学: number;
+    天文学: number;
+    投擲: number;
+    登攀: number;
+    図書館: number;
+    ナビゲート: number;
+    値切り: number;
+    博物学: number;
+    物理学: number;
+    変装: number;
+    法律: number;
+    ほかの言語1: CustomSkill;
+    ほかの言語2: CustomSkill;
+    母国語: CustomSkill;
+    マーシャルアーツ: number;
+    目星: number;
+    薬学: number;
+    歴史1: CustomSkill;
+    歴史2: CustomSkill;
+    拳銃: number;
+    サブマシンガン: number;
+    ショットガン: number;
+    マシンガン: number;
+    ライフル: number;
+  };
 }
 
 function computeDamageBonus(STR: number, SIZ: number): number {
@@ -129,8 +133,7 @@ function computeDamageBonus(STR: number, SIZ: number): number {
   return result;
 }
 
-export function makeCharacter(values: Partial<Character> = {}): Character {
-  console.log('makeCharacter');
+export function makeCharacter(): Character {
   const STR = dice.roll3D6();
   const DEX = dice.roll3D6();
   const INT = dice.roll2D6() + 6;
@@ -166,68 +169,85 @@ export function makeCharacter(values: Partial<Character> = {}): Character {
     マジックポイント: POW,
     耐久力: Math.ceil((CON + SIZ) / 2),
     // 技能
-    言いくるめ: 5,
-    医学: 5,
-    運転: 20,
-    応急手当: 30,
-    オカルト: 5,
-    回避: DEX * 2,
-    化学: 1,
-    鍵開け: 1,
-    隠す: 15,
-    隠れる: 10,
-    機械修理: 20,
-    聞き耳: 25,
-    クトゥルフ神話: 0,
-    芸術1: { name: '', value: 5 },
-    芸術2: { name: '', value: 5 },
-    経理: 10,
-    考古学: 1,
-    コンピューター: 1,
-    忍び歩き: 10,
-    写真術: 10,
-    重機械操作: 1,
-    乗馬: 5,
-    信用: 15,
-    心理学: 5,
-    人類学: 1,
-    水泳: 25,
-    製作1: { name: '', value: 5 },
-    製作2: { name: '', value: 5 },
-    製作3: { name: '', value: 5 },
-    精神分析: 1,
-    生物学: 1,
-    説得: 15,
-    操作1: { name: '', value: 1 },
-    操作2: { name: '', value: 1 },
-    地質学: 1,
-    跳躍: 25,
-    追跡: 10,
-    電気修理: 10,
-    電子工学: 1,
-    天文学: 1,
-    投擲: 25,
-    登攀: 40,
-    図書館: 25,
-    ナビゲート: 10,
-    値切り: 5,
-    博物学: 10,
-    物理学: 1,
-    変装: 1,
-    法律: 5,
-    ほかの言語1: { name: '', value: 1 },
-    ほかの言語2: { name: '', value: 1 },
-    母国語: { name: '', value: EDU * 5 },
-    マーシャルアーツ: 1,
-    目星: 25,
-    薬学: 1,
-    歴史1: { name: '', value: 20 },
-    歴史2: { name: '', value: 20 },
-    拳銃: 20,
-    サブマシンガン: 15,
-    ショットガン: 30,
-    マシンガン: 15,
-    ライフル: 25,
-    ...values
+    技能ポイント: EDU * 20,
+    興味ポイント: INT * 10,
+    skills: {
+      言いくるめ: 5,
+      医学: 5,
+      運転: 20,
+      応急手当: 30,
+      オカルト: 5,
+      回避: DEX * 2,
+      化学: 1,
+      鍵開け: 1,
+      隠す: 15,
+      隠れる: 10,
+      機械修理: 20,
+      聞き耳: 25,
+      クトゥルフ神話: 0,
+      芸術1: { name: '', value: 5 },
+      芸術2: { name: '', value: 5 },
+      経理: 10,
+      考古学: 1,
+      コンピューター: 1,
+      忍び歩き: 10,
+      写真術: 10,
+      重機械操作: 1,
+      乗馬: 5,
+      信用: 15,
+      心理学: 5,
+      人類学: 1,
+      水泳: 25,
+      製作1: { name: '', value: 5 },
+      製作2: { name: '', value: 5 },
+      製作3: { name: '', value: 5 },
+      精神分析: 1,
+      生物学: 1,
+      説得: 15,
+      操作1: { name: '', value: 1 },
+      操作2: { name: '', value: 1 },
+      地質学: 1,
+      跳躍: 25,
+      追跡: 10,
+      電気修理: 10,
+      電子工学: 1,
+      天文学: 1,
+      投擲: 25,
+      登攀: 40,
+      図書館: 25,
+      ナビゲート: 10,
+      値切り: 5,
+      博物学: 10,
+      物理学: 1,
+      変装: 1,
+      法律: 5,
+      ほかの言語1: { name: '', value: 1 },
+      ほかの言語2: { name: '', value: 1 },
+      母国語: { name: '', value: EDU * 5 },
+      マーシャルアーツ: 1,
+      目星: 25,
+      薬学: 1,
+      歴史1: { name: '', value: 20 },
+      歴史2: { name: '', value: 20 },
+      拳銃: 20,
+      サブマシンガン: 15,
+      ショットガン: 30,
+      マシンガン: 15,
+      ライフル: 25
+    }
   };
+}
+
+export function totalSkillPoint(character: Character = makeCharacter()) {
+  const skills = character.skills;
+  let point = 0;
+  for (let name of Object.getOwnPropertyNames(skills)) {
+    const value = skills[name];
+    if (value['value']) {
+      point += value.value;
+    } else {
+      point += value;
+    }
+  }
+  return point;
 }
