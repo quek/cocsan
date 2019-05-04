@@ -23,11 +23,15 @@ export class Field<T> extends React.Component<FieldProps<T>> {
   }
 
   public render() {
+    let value = this.context.getValue(this.props.name);
+    if (value === undefined) {
+      value = '';
+    }
     return (
       <input
         type="text"
         name={`${this.props.name}`}
-        defaultValue={this.context.getValue(this.props.name)}
+        value={value}
         onChange={this.handleChange}
       />
     );
@@ -83,12 +87,6 @@ export class Form<T> extends React.Component<FormProps<T>, FormState<T>> {
   };
 
   private getValue = <K extends keyof T>(name: K): T[K] | undefined => {
-    if (Object.keys(this.state.values).indexOf(`${name}`) === -1) {
-      this.setState(state => ({
-        values: { ...state.values, [name]: undefined }
-      }));
-      return undefined;
-    }
     return this.state.values[name];
   };
 

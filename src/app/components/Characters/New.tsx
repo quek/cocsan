@@ -2,7 +2,7 @@ import React from 'react';
 import { Subscribe } from 'unstated';
 import NewContainer from './NewContainer';
 import { Form, Field } from 'react-final-form';
-import Character from '../../models/Character';
+import Character, { makeCharacter } from '../../models/Character';
 import ErrorMessage from '../ErrorMessage';
 import AppContainer from '../AppContainer';
 import currentUser from '../../currentUser';
@@ -56,6 +56,7 @@ class New extends React.Component<Props> {
   public render() {
     return (
       <Form
+        initialValues={makeCharacter()}
         onSubmit={this.handleSubmit}
         render={props => (
           <form onSubmit={props.handleSubmit}>
